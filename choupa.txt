@@ -1,0 +1,45 @@
+#@version = 1
+
+study(title="Choupa",overlay=True)
+
+
+length = input(20, type="int")
+src = input(close, title="Source",type="source")
+mult = input(2.5, type="float", title="StdDev")
+basis = sma(src, length)
+dev = mult * stdev(src, length)
+upper = basis + dev
+lower = basis - dev
+plot(basis, "Basis", color="#872323")
+p1 = plot(upper, "Upper", color="teal")
+p2 = plot(lower, "Lower", color="teal")
+fill(p1, p2, title = "Background", color=color("#198787",75))
+
+plot(sma(close,20),color="blue")
+plot(sma(close,50),color="red")
+
+
+smacourte = input(12,type="int")
+lmalongue = input(26,type="int")
+tsp = input(9,type="int",title="Signal")
+
+MMEslowa = input(12,type="int")
+MMEslowb = ema(MMEslowa,lmalongue)
+
+DEMAslow = ((2 * MMEslowa) - MMEslowb )
+MMEfasta = ema(close,smacourte)
+MMEfastb = ema(MMEfasta,smacourte)
+DEMAfast = ((2 * MMEfasta) - MMEfastb)
+
+LigneMACDZeroLag = (DEMAfast - DEMAslow)
+
+MMEsignala = ema(LigneMACDZeroLag, tsp)
+MMEsignalb = ema(MMEsignala, tsp)
+Lignesignal = ((2 * MMEsignala) - MMEsignalb )
+
+MACDZeroLag = (LigneMACDZeroLag - Lignesignal)
+
+histo = LigneMACDZeroLag-Lignesignal
+plot(LigneMACDZeroLag)
+plot(Lignesignal)
+plot(histo,color=LigneMACDZeroLag>Lignesignal?"green":"red" ,style="histogram")
