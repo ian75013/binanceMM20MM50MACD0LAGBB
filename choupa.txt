@@ -40,6 +40,5 @@ Lignesignal = ((2 * MMEsignala) - MMEsignalb )
 MACDZeroLag = (LigneMACDZeroLag - Lignesignal)
 
 histo = LigneMACDZeroLag-Lignesignal
-plot(LigneMACDZeroLag)
-plot(Lignesignal)
+
 plot(histo,color=LigneMACDZeroLag>Lignesignal?"green":"red" ,style="histogram")
